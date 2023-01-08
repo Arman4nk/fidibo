@@ -49,7 +49,7 @@ class _MyHomePageState extends State<Home> {
           color: Colors.black,
           child: Center(
             child: Image.network(
-              'https://picsum.photos/200',
+              'https://picsum.photos/200/random=',
               key: imageKey,
               width: 200,
               height: 200,

@@ -38,6 +38,8 @@ class _DotScreenState extends State<DotScreen> {
   Offset? _startData;
   Offset? _endData;
 
+  late int imageID;
+
   void moveRight(double slope, int i) {
     Timer.periodic(const Duration(milliseconds: 8), (timer) {
       if (_tapCount != i) {
@@ -96,11 +98,17 @@ class _DotScreenState extends State<DotScreen> {
   }
 
   @override
+  void initState() {
+    imageID = 1;
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _circlePosition ??= Offset(
         (MediaQuery.of(context).size.width - _circleSize) / 2,
         (MediaQuery.of(context).size.height - _circleSize) / 2);
-
     return Scaffold(
       body: Stack(
         children: [
@@ -129,10 +137,18 @@ class _DotScreenState extends State<DotScreen> {
           Positioned(
             left: _circlePosition!.dx,
             top: _circlePosition!.dy,
-            child: Image.network(
-              'https://picsum.photos/${_circleSize.toInt()}',
-              height: _circleSize,
-              width: _circleSize,
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  imageID = (Random().nextInt(26) + 1);
+                });
+              },
+              child: Image.network(
+                'https://picsum.photos/${_circleSize.toInt()}?random=$imageID',
+              //  loadingBuilder: (context, child, loadingProgress) => const CircularProgressIndicator(),
+                height: _circleSize,
+                width: _circleSize,
+              ),
             ),
           ),
         ],
